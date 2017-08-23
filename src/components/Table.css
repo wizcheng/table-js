@@ -1,0 +1,20 @@
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.table {
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.header.row .cell{
+  background-color: darkgray;
+  color: white;
+}
+
+.cell {
+  overflow: hidden;
+}
