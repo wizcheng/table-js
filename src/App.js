@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Table from "./components/Table";
+import Table from "./components/v2/react/Table";
 import mockApi from "./common/mockApi";
 import R from "ramda";
 
@@ -15,16 +15,9 @@ class App extends Component {
       return {
         name: "Field " + i,
         key: "field_" + i,
-        width: 200
+        width: 100
       }
     }, R.range(1, columnCount+1));
-
-    const config = {
-      height: 500,
-      width: 500,
-      rowHeight: 25,
-      headerHeight: 30
-    };
 
     console.log("start mock data");
     const data = mockApi.loadData(1000, columnCount);
@@ -34,15 +27,18 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
-          <h2>Welcome to React</h2>
+
+        <h3>Simple Table</h3>
+
+        <div style={{display: "inline-block"}}>
+          <Table
+            width={800}
+            height={300}
+            rowHeight={25}
+            headerRowHeight={30}
+            columns={columns}
+            data={data}/>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-
-
 
       </div>
     );

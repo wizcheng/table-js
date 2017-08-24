@@ -1,0 +1,5 @@
+.body {
+  /*border: 2px solid green;*/
+  overflow-x: scroll;
+  overflow-y: scroll;
+}

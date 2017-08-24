@@ -29,6 +29,18 @@ const create = () => {
       table.config = Object.assign({}, table.config, config);
     },
 
+    utils: {
+      bodyVisibleWidth: () => { return table.config.width},
+      bodyVisibleHeight: () => { return table.config.height - table.config.headerRowHeight; },
+      bodyWidth: () => R.sum(R.map(c => c.width, table.config.columns)),
+      bodyHeight: () => table.config.rowHeight * table.dataSource().size(),
+
+      headerVisibleWidth: () => { return table.config.width},
+      headerVisibleHeight: () => { return table.config.headerRowHeight; },
+      headerWidth: () => R.sum(R.map(c => c.width, table.config.columns)),
+      headerHeight: () => { return table.config.headerRowHeight },
+    },
+
     viewport: {
       offsetLeft: () => 0,
       offsetTop: () => 0,
@@ -47,6 +59,25 @@ const create = () => {
 
     _fixedRowHeight: () => table.config.headerRowHeight,
     _fixedColumnWidth: () => 0,
+
+    visibleHeaders: () => {
+
+      const headers = [];
+      let startX = 0;
+      table.config.columns.forEach(c => {
+        headers.push({
+          x: startX,
+          y: 0,
+          width: c.width,
+          height: table.config.headerRowHeight,
+          value: c.name
+        });
+
+        startX += c.width;
+      });
+      return headers;
+
+    },
 
     visibleCells: () => {
 

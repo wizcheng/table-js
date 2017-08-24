@@ -1,0 +1,10 @@
+.header {
+  /*border: 2px solid blue;*/
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.header .cell {
+  background-color: #5E740B;
+  color: white;
+}
