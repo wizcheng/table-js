@@ -10,7 +10,7 @@ class App extends Component {
 
   render() {
 
-    const columnCount = 100;
+    const columnCount = 200;
     const columns = R.map(i => {
       return {
         name: "Field " + i,
@@ -19,8 +19,11 @@ class App extends Component {
       }
     }, R.range(1, columnCount+1));
 
+    columns[0].fixed = true;
+    columns[1].fixed = true;
+
     console.log("start mock data");
-    const data = mockApi.loadData(1000, columnCount);
+    const data = mockApi.loadData(10000, columnCount);
     console.log("start mock data ... done");
 
     //<Table columns={columns} data={data} config={config}/>
@@ -32,8 +35,8 @@ class App extends Component {
 
         <div style={{display: "inline-block"}}>
           <Table
-            width={800}
-            height={300}
+            width={1000}
+            height={500}
             rowHeight={25}
             headerRowHeight={30}
             columns={columns}

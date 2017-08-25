@@ -30,15 +30,23 @@ const create = () => {
     },
 
     utils: {
-      bodyVisibleWidth: () => { return table.config.width},
+      bodyTop: () => table.utils.headerHeight(),
+      bodyLeft: () => {return table.utils._sumOfWidth(table.utils._fixedColumns())},
+      bodyVisibleWidth: () => { return table.config.width - table.utils.bodyLeft() },
       bodyVisibleHeight: () => { return table.config.height - table.config.headerRowHeight; },
-      bodyWidth: () => R.sum(R.map(c => c.width, table.config.columns)),
+      bodyWidth: () => R.sum(R.map(c => c.width, table.utils._normalColumns())),
       bodyHeight: () => table.config.rowHeight * table.dataSource().size(),
 
-      headerVisibleWidth: () => { return table.config.width},
+      headerTop: () => 0,
+      headerLeft: () => {return table.utils._sumOfWidth(table.utils._fixedColumns())},
+      headerVisibleWidth: () => { return table.config.width - table.utils.headerLeft() },
       headerVisibleHeight: () => { return table.config.headerRowHeight; },
-      headerWidth: () => R.sum(R.map(c => c.width, table.config.columns)),
+      headerWidth: () => R.sum(R.map(c => c.width, table.utils._normalColumns())),
       headerHeight: () => { return table.config.headerRowHeight },
+
+      _normalColumns: () => { return R.filter(c => !c.fixed, table.config.columns)},
+      _fixedColumns: () => { return R.filter(c => c.fixed, table.config.columns)},
+      _sumOfWidth: R.pipe(R.map(c => c.width), R.sum),
     },
 
     viewport: {
@@ -58,13 +66,18 @@ const create = () => {
     },
 
     _fixedRowHeight: () => table.config.headerRowHeight,
-    _fixedColumnWidth: () => 0,
+    _fixedColumnWidth: () => {
+      return R.pipe(
+        R.map(c => c.width),
+        R.sum
+      )(table.utils._fixedColumns())
+    },
 
-    visibleHeaders: () => {
+    visibleFixedHeaders: () => {
 
       const headers = [];
       let startX = 0;
-      table.config.columns.forEach(c => {
+      table.utils._fixedColumns().forEach(c => {
         headers.push({
           x: startX,
           y: 0,
@@ -79,26 +92,44 @@ const create = () => {
 
     },
 
-    visibleCells: () => {
+    visibleHeaders: () => {
 
-      const isVisible = (from, to, visibleFrom, visibleTo) => {
-        return !(to < visibleFrom || from > visibleTo);
-      };
+      const headers = [];
+      let startX = 0;
+      table.utils._normalColumns().forEach(c => {
+        headers.push({
+          x: startX,
+          y: 0,
+          width: c.width,
+          height: table.config.headerRowHeight,
+          value: c.name
+        });
 
-      const visibleColumns = [];
-      const visibleRows = [];
+        startX += c.width;
+      });
+      return headers;
+
+    },
+
+
+
+    _isVisible: (from, to, visibleFrom, visibleTo) => {
+      return !(to < visibleFrom || from > visibleTo);
+    },
+    _visibleColumns: (columns) => {
+
       const viewport = table.viewport;
+      const visibleColumns = [];
 
       // calculate visible columns
-      let i = 0;
       let prevEnd = 0;
       console.log("viewport xFrom/xTo", viewport._xFrom(), viewport._xTo());
-      for (i = 0; i < table.config.columns.length; i++) {
+      for (let i = 0; i < columns.length; i++) {
 
         const currStart = prevEnd;
-        const currEnd = prevEnd + table.config.columns[i].width;
+        const currEnd = prevEnd + columns[i].width;
 
-        var visible = isVisible(currStart, currEnd, viewport._xFrom(), viewport._xTo());
+        var visible = table._isVisible(currStart, currEnd, viewport._xFrom(), viewport._xTo());
         if (visible) {
           visibleColumns.push(i);
         }
@@ -106,24 +137,28 @@ const create = () => {
         prevEnd = currEnd;
       }
 
-      // calculate visible rows
+      return visibleColumns
+    },
+    _visibleRows: () => {
+      const visibleRows = [];
+      const viewport = table.viewport;
+
       let rowFrom = Math.floor(viewport._yFrom() / table.config.rowHeight);
       rowFrom = Math.min(rowFrom, table.dataSource().size()-1);
       let rowTo = Math.ceil(viewport._yTo() / table.config.rowHeight);
       rowTo = Math.min(rowTo, table.dataSource().size()-1);
       R.range(rowFrom, rowTo + 1).forEach(r => {visibleRows.push(r)});
-
-      console.log("rowFrom/To", rowFrom, rowTo, table.config.rowHeight);
-      console.log("visible (rows/columns)", visibleRows, visibleColumns);
-
+      return visibleRows;
+    },
+    _visibleCells: (visibleColumns, visibleRows, columns) => {
       const columnX = (col) => {
-        return R.sum(R.map(column => column.width, R.addIndex(R.filter)((_, i) => i < col, table.config.columns)));
+        return R.sum(R.map(column => column.width, R.addIndex(R.filter)((_, i) => i < col, table.utils._normalColumns())));
       };
       const visibleCells = [];
       const dataSource = table.dataSource();
       const rowHeight = table.config.rowHeight;
       visibleColumns.forEach((col) => {
-        const columnConfig = table.config.columns[col];
+        const columnConfig = columns[col];
         const x = columnX(col);
         visibleRows.forEach((row) => {
           const data = dataSource.at(row);
@@ -139,7 +174,31 @@ const create = () => {
       });
 
       return visibleCells;
-    }
+    },
+
+
+    visibleCells: () => {
+
+      var columns = table.utils._normalColumns();
+
+      const visibleColumns = table._visibleColumns(columns);
+      const visibleRows = table._visibleRows();
+
+      return table._visibleCells(visibleColumns, visibleRows, columns);
+    },
+
+
+    visibleFixedCells: () => {
+
+      const columns = table.utils._fixedColumns();
+
+      const visibleRows = table._visibleRows();
+      const visibleColumns = R.range(0, columns.length);
+
+      return table._visibleCells(visibleColumns, visibleRows, columns);
+
+
+    },
 
 
   };
