@@ -19,7 +19,8 @@ describe("js table", () => {
     return R.flatten(R.range(rowFrom, rowTo+1).map(row => {
       return R.range(colFrom, colTo+1).map(col => {
         return {
-          index: row,
+          row: row,
+          column: col,
           x: col * 100,
           y: row * 10,
           width: 100,

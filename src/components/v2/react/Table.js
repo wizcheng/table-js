@@ -12,6 +12,7 @@ export default class Table extends Component {
     super(props);
 
     this.handleScroll = this.handleScroll.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
 
     const config = R.pick(["width", "height", "rowHeight", "headerRowHeight", "columns"], props);
 
@@ -23,6 +24,8 @@ export default class Table extends Component {
       table: table,
       bodyOffsetLeft: 0,
       bodyOffsetTop: 0,
+      mouseOverColumn: -1,
+      mouseOverRow: -1
     }
   }
 
@@ -34,8 +37,17 @@ export default class Table extends Component {
     });
   }
 
+  handleMouseOver(row, column) {
+    console.log("mouse over row/column", row, column);
+    this.setState({
+      mouseOverRow: row,
+      mouseOverColumn: column
+    })
+  }
+
   render() {
 
+    console.log("table render");
     const table = this.state.table;
 
     const bodyOffsetLeft = this.state.bodyOffsetLeft;
@@ -47,15 +59,27 @@ export default class Table extends Component {
 
     const {width, height} = table.config;
     const cellRenderer = this.props.cellRenderer?this.props.cellRenderer:(c)=>c.value;
-    const cellToComponents = R.map(c => <Cell key={c.x+"_"+c.y}
-                                              x={c.x}
-                                              y={c.y}
-                                              width={c.width}
-                                              height={c.height}
-                                              className={c.index%2===0?"even":"odd"}
-                                          >{cellRenderer(c)}</Cell>);
+    const cellToComponents = R.map(c => {
 
-    console.log("width and height", width, height);
+      let className = c.row%2===0?"even":"odd";
+      if (c.row == this.state.mouseOverRow) {
+        className += " mouseover-row"
+      }
+      if (c.column == this.state.mouseOverColumn) {
+        className += " mouseover-column"
+      }
+
+      return <Cell key={c.x+"_"+c.y}
+            row={c.row}
+            column={c.column}
+            x={c.x}
+            y={c.y}
+            width={c.width}
+            height={c.height}
+            className={className}
+            onMouseOver={this.handleMouseOver}
+      >{cellRenderer(c)}</Cell>
+    });
 
     const style = {width, height, position: "relative"};
 

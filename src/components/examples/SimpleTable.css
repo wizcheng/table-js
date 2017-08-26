@@ -34,3 +34,13 @@
 .simple-table .header .cell {
   font-size: 13px;
 }
+
+.simple-table .mouseover-row.cell {
+  background-color: #b0e0e6;
+}
+.simple-table .mouseover-column.cell {
+  background-color: #dddddd;
+}
+.simple-table .mouseover-column.mouseover-row.cell {
+  background-color: #a0d0d6;
+}

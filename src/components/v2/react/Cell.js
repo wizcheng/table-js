@@ -4,10 +4,9 @@ import "./Cell.css";
 
 export default class Cell extends Component {
 
-
   render() {
 
-    const {x, y, width, height, children, className} = this.props;
+    const {row, column, x, y, width, height, children, className, onMouseOver} = this.props;
     const style = {
       top: y,
       left: x,
@@ -16,8 +15,15 @@ export default class Cell extends Component {
       position: "absolute"
     };
 
+    const _handleMouseOver = () => {
+      if (onMouseOver){
+        onMouseOver(row, column);
+      }
+    };
+
+
     return (
-      <div className={className + " cell"} style={style}>
+      <div className={className + " cell"} style={style} onMouseOver={_handleMouseOver}>
         {children}
       </div>
     )

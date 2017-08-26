@@ -11,7 +11,6 @@ export default class Body extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {scrollTopTo} = nextProps;
-    console.log("body", this.body);
     this.body.scrollTop = scrollTopTo;
   }
 
@@ -28,7 +27,6 @@ export default class Body extends Component {
     const overflowY = noScroll ? "hidden" : "scroll";
 
     const _handleScroll = () => {
-      console.log("scroll");
       if (onScroll){
         onScroll(this.body.scrollLeft, this.body.scrollTop);
       }

@@ -47,6 +47,13 @@ const create = () => {
       _normalColumns: () => { return R.filter(c => !c.fixed, table.config.columns)},
       _fixedColumns: () => { return R.filter(c => c.fixed, table.config.columns)},
       _sumOfWidth: R.pipe(R.map(c => c.width), R.sum),
+
+
+      rowAndColumnForMouseAtBody: (clientTop, clientLeft) => {
+        const mouseOverRow = Math.floor(clientTop/table.config.rowHeight);
+        return [mouseOverRow, 0];
+      }
+
     },
 
     viewport: {
@@ -164,7 +171,8 @@ const create = () => {
           const data = dataSource.at(row);
           const value = data[columnConfig.key];
           visibleCells.push({
-            index: row,
+            row: row,
+            column: col,
             y: rowHeight * row,
             x: x,
             width: columnConfig.width,

@@ -33,8 +33,8 @@ class SimpleTable extends Component {
     return (
       <div style={{display: "inline-block"}}>
         <Table
-          width={1000}
-          height={500}
+          width={800}
+          height={350}
           rowHeight={20}
           headerRowHeight={26}
           columns={columns}
