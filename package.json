@@ -4,13 +4,9 @@
   "private": true,
   "homepage": "https://wizcheng.github.io/table-js",
   "dependencies": {
-    "chai": "^4.1.1",
-    "expect": "^1.20.2",
-    "lodash": "^4.17.4",
     "ramda": "^0.24.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-scripts": "1.0.11"
+    "react-dom": "^15.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,6 +17,9 @@
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
+    "react-scripts": "1.0.11",
+    "chai": "^4.1.1",
+    "expect": "^1.20.2",
     "ncp": "^2.0.0",
     "gh-pages": "^1.0.0"
   }

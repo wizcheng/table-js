@@ -19,6 +19,7 @@ describe("js table", () => {
     return R.flatten(R.range(rowFrom, rowTo+1).map(row => {
       return R.range(colFrom, colTo+1).map(col => {
         return {
+          index: row,
           x: col * 100,
           y: row * 10,
           width: 100,
@@ -108,8 +109,8 @@ describe("js table", () => {
     const expected = sortByXY(createExpectedData(3, 8, 2, 9));
     const actual = sortByXY(table.visibleCells());
 
-    console.log("actual", actual);
-    console.log("expected", expected);
+    console.log("actual 1", actual);
+    console.log("expected 1", expected);
 
     chai.expect(actual).to.have.lengthOf(expected.length);
     chai.expect(actual).to.be.deep.equal(expected);
