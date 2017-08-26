@@ -38,9 +38,15 @@
 .simple-table .mouseover-row.cell {
   background-color: #b0e0e6;
 }
+
 .simple-table .mouseover-column.cell {
   background-color: #dddddd;
 }
+
 .simple-table .mouseover-column.mouseover-row.cell {
   background-color: #a0d0d6;
+}
+
+.simple-table .header .mouseover-column.cell {
+  background-color: #1b719f;
 }
