@@ -7,7 +7,7 @@ export default class Cell extends Component {
 
   render() {
 
-    const {x, y, width, height, value} = this.props;
+    const {x, y, width, height, children, className} = this.props;
     const style = {
       top: y,
       left: x,
@@ -17,8 +17,8 @@ export default class Cell extends Component {
     };
 
     return (
-      <div className="cell" style={style}>
-        {value}
+      <div className={className + " cell"} style={style}>
+        {children}
       </div>
     )
   }

@@ -1,0 +1,36 @@
+.simple-table {
+}
+
+.simple-table .cell {
+  font-size: 11px;
+}
+
+.simple-table .header .myCell {
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simple-table .body .myCell {
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: #cccccc;
+}
+
+.simple-table .cell.even {
+  background-color: #eeeeee;
+}
+
+.simple-table .header .cell {
+  background-color: #2b81af;
+  color: white;
+}
+
+.simple-table .header .cell {
+  font-size: 13px;
+}

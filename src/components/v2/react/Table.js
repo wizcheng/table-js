@@ -46,24 +46,21 @@ export default class Table extends Component {
     });
 
     const {width, height} = table.config;
-    const cellToComponents = R.map(c => <Cell key={c.x+"_"+c.y} x={c.x} y={c.y} width={c.width} height={c.height}
-                                              value={c.value}/>)
-
-    const cellWithOffset = (offsetLeft, offsetTop, cells) => {
-      return R.map(c => <Cell key={c.x+"_"+c.y}
-                              x={c.x + offsetLeft}
-                              y={c.y + offsetTop}
-                              width={c.width}
-                              height={c.height}
-                              value={c.value}/>, cells);
-    }
+    const cellRenderer = this.props.cellRenderer?this.props.cellRenderer:(c)=>c.value;
+    const cellToComponents = R.map(c => <Cell key={c.x+"_"+c.y}
+                                              x={c.x}
+                                              y={c.y}
+                                              width={c.width}
+                                              height={c.height}
+                                              className={c.index%2===0?"even":"odd"}
+                                          >{cellRenderer(c)}</Cell>);
 
     console.log("width and height", width, height);
 
     const style = {width, height, position: "relative"};
 
     return (
-      <div className="table" style={style}>
+      <div className="simple-table" style={style}>
 
         <Header
           zIndex={0}

@@ -160,10 +160,11 @@ const create = () => {
       visibleColumns.forEach((col) => {
         const columnConfig = columns[col];
         const x = columnX(col);
-        visibleRows.forEach((row) => {
+        visibleRows.forEach((row, i) => {
           const data = dataSource.at(row);
           const value = data[columnConfig.key];
           visibleCells.push({
+            index: i,
             y: rowHeight * row,
             x: x,
             width: columnConfig.width,
