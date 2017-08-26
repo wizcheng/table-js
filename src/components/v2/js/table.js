@@ -26,7 +26,10 @@ const create = () => {
     },
 
     setConfig: (config) => {
-      table.config = Object.assign({}, table.config, config);
+      const columns = R.addIndex(R.map)((c, i) => {
+        return Object.assign({}, c, {__index: i})
+      }, config.columns);
+      table.config = Object.assign({}, table.config, config, {columns});
     },
 
     utils: {
@@ -172,7 +175,7 @@ const create = () => {
           const value = data[columnConfig.key];
           visibleCells.push({
             row: row,
-            column: col,
+            column: columnConfig.__index,
             y: rowHeight * row,
             x: x,
             width: columnConfig.width,
