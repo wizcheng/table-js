@@ -89,6 +89,7 @@ const create = () => {
       let startX = 0;
       table.utils._fixedColumns().forEach(c => {
         headers.push({
+          row: undefined,
           column: c.__index,
           x: startX,
           y: 0,
@@ -109,6 +110,7 @@ const create = () => {
       let startX = 0;
       table.utils._normalColumns().forEach(c => {
         headers.push({
+          row: undefined,
           column: c.__index,
           x: startX,
           y: 0,

@@ -62,11 +62,15 @@ export default class Table extends Component {
     const cellToComponents = R.map(c => {
 
       let className = c.row%2===0?"even":"odd";
-      if (c.row == this.state.mouseOverRow) {
-        className += " mouseover-row"
+      if (typeof this.state.mouseOverRow !== "undefined"){
+        if (c.row == this.state.mouseOverRow) {
+          className += " mouseover-row"
+        }
       }
-      if (c.column == this.state.mouseOverColumn) {
-        className += " mouseover-column"
+      if (typeof this.state.mouseOverColumn !== "undefined") {
+        if (c.column == this.state.mouseOverColumn) {
+          className += " mouseover-column"
+        }
       }
 
       return <Cell key={c.x+"_"+c.y}
