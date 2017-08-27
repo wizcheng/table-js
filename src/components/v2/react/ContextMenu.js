@@ -11,7 +11,7 @@ const itemsToDOM = R.addIndex(R.map)((item, i) => {
   return <div key={i} style={style}>{item.item}</div>;
 });
 
-class HeaderMenu extends Component {
+class ContextMenu extends Component {
 
   render() {
 
@@ -32,4 +32,4 @@ class HeaderMenu extends Component {
   }
 }
 
-export default HeaderMenu;
+export default ContextMenu;

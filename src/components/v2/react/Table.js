@@ -5,24 +5,15 @@ import tableCreator from "../js/table";
 import Cell from "./Cell";
 import Body from "./Body";
 import Header from "./Header";
-import HeaderMenu from "./HeaderMenu";
+import ContextMenu from "./ContextMenu";
 
 const context = {
 
   _items: [],
 
-  showItem: (item) => {
-
-    context._items = [item];
-  },
-
-  items: () => {
-    return context._items;
-  },
-
-  clear: () => {
-    context._items = [];
-  }
+  showItem: (item) => {context._items = [item];},
+  items: () => context._items,
+  clear: () => {context._items = [];}
 };
 
 export default class Table extends Component {
@@ -193,7 +184,7 @@ export default class Table extends Component {
           noScroll
         />
 
-        <HeaderMenu
+        <ContextMenu
           zIndex={2}
           width={width}
           height={height}
