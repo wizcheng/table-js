@@ -20,7 +20,6 @@ class ContextMenu extends Component {
       width: 0,
       height: 0,
       zIndex: zIndex,
-      border: "2px red solid",
       position: "absolute"
     };
 
