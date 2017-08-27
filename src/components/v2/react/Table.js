@@ -5,6 +5,25 @@ import tableCreator from "../js/table";
 import Cell from "./Cell";
 import Body from "./Body";
 import Header from "./Header";
+import HeaderMenu from "./HeaderMenu";
+
+const context = {
+
+  _items: [],
+
+  showItem: (item) => {
+
+    context._items = [item];
+  },
+
+  items: () => {
+    return context._items;
+  },
+
+  clear: () => {
+    context._items = [];
+  }
+};
 
 export default class Table extends Component {
 
@@ -13,6 +32,7 @@ export default class Table extends Component {
 
     this.handleScroll = this.handleScroll.bind(this);
     this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     const config = R.pick(["width", "height", "rowHeight", "headerRowHeight", "columns"], props);
 
@@ -25,7 +45,9 @@ export default class Table extends Component {
       bodyOffsetLeft: 0,
       bodyOffsetTop: 0,
       mouseOverColumn: -1,
-      mouseOverRow: -1
+      mouseOverRow: -1,
+      mouseClickColumn: -1,
+      mouseClickRow: -1,
     }
   }
 
@@ -35,6 +57,7 @@ export default class Table extends Component {
       bodyOffsetLeft: x,
       bodyOffsetTop: y
     });
+    context.clear();
   }
 
   handleMouseOver(row, column) {
@@ -43,6 +66,30 @@ export default class Table extends Component {
       mouseOverRow: row,
       mouseOverColumn: column
     })
+  }
+
+  handleClick(row, column) {
+    console.log("mouse click row/column", row, column);
+
+    if (this.state.mouseClickColumn === column
+      && this.state.mouseClickRow === row){
+      context.clear();
+      this.setState({
+        mouseClickRow: -1,
+        mouseClickColumn: -1
+      });
+    } else {
+      const pos = this.state.table.utils.rowAndColumnToPosition(row, column);
+      context.showItem({
+        top: pos.top + pos.height,
+        left: pos.left,
+        item: <div className="context-menu" style={{height: 80, width: 150}}>Click on {row} / {column}</div>
+      })
+      this.setState({
+        mouseClickRow: row,
+        mouseClickColumn: column
+      });
+    }
   }
 
   render() {
@@ -58,11 +105,11 @@ export default class Table extends Component {
     });
 
     const {width, height} = table.config;
-    const cellRenderer = this.props.cellRenderer?this.props.cellRenderer:(c)=>c.value;
+    const cellRenderer = this.props.cellRenderer ? this.props.cellRenderer : (c)=>c.value;
     const cellToComponents = R.map(c => {
 
-      let className = c.row%2===0?"even":"odd";
-      if (typeof this.state.mouseOverRow !== "undefined"){
+      let className = c.row % 2 === 0 ? "even" : "odd";
+      if (typeof this.state.mouseOverRow !== "undefined") {
         if (c.row == this.state.mouseOverRow) {
           className += " mouseover-row"
         }
@@ -74,14 +121,15 @@ export default class Table extends Component {
       }
 
       return <Cell key={c.x+"_"+c.y}
-            row={c.row}
-            column={c.column}
-            x={c.x}
-            y={c.y}
-            width={c.width}
-            height={c.height}
-            className={className}
-            onMouseOver={this.handleMouseOver}
+                   row={c.row}
+                   column={c.column}
+                   x={c.x}
+                   y={c.y}
+                   width={c.width}
+                   height={c.height}
+                   className={className}
+                   onMouseOver={this.handleMouseOver}
+                   onClick={this.handleClick}
       >{cellRenderer(c)}</Cell>
     });
 
@@ -129,6 +177,7 @@ export default class Table extends Component {
           offsetLeft={0}
           offsetTop={0}
           cells={cellToComponents(table.visibleFixedHeaders())}
+          context={context}
         />
         <Body
           zIndex={1}
@@ -142,6 +191,13 @@ export default class Table extends Component {
           cells={cellToComponents(table.visibleFixedCells())}
           // onScroll={this.handleScroll}
           noScroll
+        />
+
+        <HeaderMenu
+          zIndex={2}
+          width={width}
+          height={height}
+          items={context.items()}
         />
       </div>
     );

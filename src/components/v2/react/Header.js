@@ -4,14 +4,28 @@ import "./Header.css";
 
 export default class Header extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this._handleClick = this._handleClick.bind(this);
+    this.state = {
+      popupOpen: false
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const {scrollLeftTo} = nextProps;
     this.header.scrollLeft = scrollLeftTo;
+  }
+
+  componentDidMount(){
+  }
+
+  _handleClick() {
+    this.setState({
+      popupOpen: !this.state.popupOpen
+    })
   }
 
   render() {
@@ -23,15 +37,17 @@ export default class Header extends Component {
       position: "relative"
     };
 
+    const constainerStyle = {
+      top: top,
+      left: left,
+      width: visibleWidth,
+      height: visibleHeight,
+      position: "absolute",
+      zIndex: zIndex,
+    };
+
     return (
-      <div id="header" ref={(header) => {this.header = header}} className="header" style={{
-        top: top,
-        left: left,
-        width: visibleWidth,
-        height: visibleHeight,
-        position: "absolute",
-        zIndex: zIndex,
-      }}>
+      <div id="header" ref={(header) => {this.header = header}} className="header" style={constainerStyle}>
         <div style={style}>
           {cells}
         </div>

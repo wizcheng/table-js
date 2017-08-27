@@ -2,3 +2,8 @@
   /*border: 1px solid red;*/
   position: relative;
 }
+
+
+.simple-table .context-menu {
+  background-color: #2b81af;
+}

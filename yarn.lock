@@ -1369,6 +1369,10 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
+classnames@^2.2.0:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
 clean-css@4.1.x:
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.7.tgz#b9aea4f85679889cf3eae8b40349ec4ebdfdd032"
@@ -1569,17 +1573,6 @@ cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
-copyfiles@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/copyfiles/-/copyfiles-1.2.0.tgz#a8da3ac41aa2220ae29bd3c58b6984294f2c593c"
-  dependencies:
-    glob "^7.0.5"
-    ltcdr "^2.2.1"
-    minimatch "^3.0.3"
-    mkdirp "^0.5.1"
-    noms "0.0.0"
-    through2 "^2.0.1"
-
 core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
@@ -1637,7 +1630,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.6.0:
+create-react-class@^15.5.3, create-react-class@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
   dependencies:
@@ -1713,6 +1706,12 @@ css-selector-tokenizer@^0.7.0:
     cssesc "^0.1.0"
     fastparse "^1.1.1"
     regexpu-core "^1.0.0"
+
+css-vendor@^0.3.1:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-0.3.8.tgz#6421cfd3034ce664fe7673972fd0119fc28941fa"
+  dependencies:
+    is-in-browser "^1.0.2"
 
 css-what@2.1:
   version "2.1.0"
@@ -3344,6 +3343,10 @@ is-glob@^3.1.0:
   dependencies:
     is-extglob "^2.1.0"
 
+is-in-browser@^1.0.2:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/is-in-browser/-/is-in-browser-1.1.3.tgz#56ff4db683a078c6082eb95dad7dc62e1d04f835"
+
 is-npm@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/is-npm/-/is-npm-1.0.0.tgz#f2fb63a65e4905b406c86072765a1a4dc793b9f4"
@@ -3985,6 +3988,10 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash._getnative@^3.0.0:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
+
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -3996,6 +4003,12 @@ lodash.camelcase@^4.3.0:
 lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.cond/-/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
+
+lodash.debounce@^3.0.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-3.1.1.tgz#812211c378a94cc29d5aa4e3346cf0bfce3a7df5"
+  dependencies:
+    lodash._getnative "^3.0.0"
 
 lodash.defaults@^4.2.0:
   version "4.2.0"
@@ -4017,6 +4030,12 @@ lodash.templatesettings@^4.0.0:
   resolved "https://registry.yarnpkg.com/lodash.templatesettings/-/lodash.templatesettings-4.1.0.tgz#2b4d4e95ba440d915ff08bc899e4553666713316"
   dependencies:
     lodash._reinterpolate "~3.0.0"
+
+lodash.throttle@^3.0.3:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-3.0.4.tgz#bc4f471fb328e4d6fdc6df2b3d3caf113f0f89c9"
+  dependencies:
+    lodash.debounce "^3.0.0"
 
 lodash.uniq@^4.5.0:
   version "4.5.0"
@@ -4061,10 +4080,6 @@ lru-cache@^4.0.1:
   dependencies:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
-
-ltcdr@^2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/ltcdr/-/ltcdr-2.2.1.tgz#5ab87ad1d4c1dab8e8c08bbf037ee0c1902287cf"
 
 macaddress@^0.2.8:
   version "0.2.8"
@@ -4342,13 +4357,6 @@ node-pre-gyp@^0.6.36:
 node-status-codes@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/node-status-codes/-/node-status-codes-1.0.0.tgz#5ae5541d024645d32a58fcddc9ceecea7ae3ac2f"
-
-noms@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/noms/-/noms-0.0.0.tgz#da8ebd9f3af9d6760919b27d9cdc8092a7332859"
-  dependencies:
-    inherits "^2.0.1"
-    readable-stream "~1.0.31"
 
 nopt@^4.0.1:
   version "4.0.1"
@@ -5080,7 +5088,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10:
+prop-types@^15.5.10, prop-types@^15.5.8:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -5229,6 +5237,16 @@ react-error-overlay@^1.0.10:
     settle-promise "1.0.0"
     source-map "0.5.6"
 
+react-popover@^0.4.16:
+  version "0.4.16"
+  resolved "https://registry.yarnpkg.com/react-popover/-/react-popover-0.4.16.tgz#ecd592f445f3e2e0b7886969733cffd76ed622d1"
+  dependencies:
+    create-react-class "^15.5.3"
+    css-vendor "^0.3.1"
+    debug "^2.6.8"
+    lodash.throttle "^3.0.3"
+    prop-types "^15.5.10"
+
 react-scripts@1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-1.0.11.tgz#483d49e27f417ec981ae415a4456120a2a2bc8c1"
@@ -5271,6 +5289,13 @@ react-scripts@1.0.11:
     whatwg-fetch "2.0.3"
   optionalDependencies:
     fsevents "1.1.2"
+
+react-tooltip@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.3.0.tgz#51c08ae0221075e2c43d83cd47fc78466612df7d"
+  dependencies:
+    classnames "^2.2.0"
+    prop-types "^15.5.8"
 
 react@^15.6.1:
   version "15.6.1"
@@ -5319,7 +5344,7 @@ read-pkg@^2.0.0:
     normalize-package-data "^2.3.2"
     path-type "^2.0.0"
 
-readable-stream@1.0, readable-stream@~1.0.31:
+readable-stream@1.0:
   version "1.0.34"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.0.34.tgz#125820e34bc842d2f2aaafafe4c2916ee32c157c"
   dependencies:
@@ -5328,7 +5353,7 @@ readable-stream@1.0, readable-stream@~1.0.31:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.2.6, readable-stream@^2.2.9:
+readable-stream@^2.0.0, readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.0.6, readable-stream@^2.1.4, readable-stream@^2.2.2, readable-stream@^2.2.6, readable-stream@^2.2.9:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.3.3.tgz#368f2512d79f9d46fdfc71349ae7878bbc1eb95c"
   dependencies:
@@ -6079,6 +6104,16 @@ test-exclude@^4.1.1:
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
 
+tether-drop@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/tether-drop/-/tether-drop-1.4.2.tgz#28e240cce077f4ae1d8e5990a03b71e0cd6fbfec"
+  dependencies:
+    tether "^1.1.0"
+
+tether@^1.1.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/tether/-/tether-1.4.0.tgz#0f9fa171f75bf58485d8149e94799d7ae74d1c1a"
+
 text-table@0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
@@ -6086,13 +6121,6 @@ text-table@0.2.0, text-table@~0.2.0:
 throat@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-3.2.0.tgz#50cb0670edbc40237b9e347d7e1f88e4620af836"
-
-through2@^2.0.1:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
-  dependencies:
-    readable-stream "^2.1.5"
-    xtend "~4.0.1"
 
 through@^2.3.6:
   version "2.3.8"
@@ -6609,7 +6637,7 @@ xml-name-validator@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-2.0.1.tgz#4d8b8f1eccd3419aa362061becef515e1e559635"
 
-xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.1:
+xtend@^4.0.0, xtend@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 

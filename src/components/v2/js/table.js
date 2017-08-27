@@ -50,12 +50,47 @@ const create = () => {
       _normalColumns: () => { return R.filter(c => !c.fixed, table.config.columns)},
       _fixedColumns: () => { return R.filter(c => c.fixed, table.config.columns)},
       _sumOfWidth: R.pipe(R.map(c => c.width), R.sum),
+      _leftOfColumn: (column) => {
+        let left = 0;
+        var columns = table.config.columns;
+        for (let i=0; i < columns.length; i++){
+          if (columns[i].__index<column){
+            left += columns[i].width;
+          }
+        }
+        return left;
+      },
 
+      rowAndColumnToPosition: (row, column) => {
 
-      rowAndColumnForMouseAtBody: (clientTop, clientLeft) => {
-        const mouseOverRow = Math.floor(clientTop/table.config.rowHeight);
-        return [mouseOverRow, 0];
+        let top = 0;
+        let left = 0;
+        let height = 0;
+        let width = 0;
+
+        if (typeof row !== "undefined"){
+          top = row * table.config.rowHeight + table.config.headerRowHeight - table.viewport.offsetTop();
+          height = table.config.rowHeight;
+        } else {
+          height = table.config.headerRowHeight;
+        }
+
+        if (column <= table.utils._fixedColumns().length){
+          left = table.utils._leftOfColumn(column);
+        } else {
+          left = table.utils._leftOfColumn(column) - table.viewport.offsetLeft();
+        }
+
+        return {
+          top,
+          left,
+          width,
+          height,
+        };
+
       }
+
+
 
     },
 
