@@ -6,14 +6,19 @@ import Cell from "./Cell";
 import Body from "./Body";
 import Header from "./Header";
 import ContextMenu from "./ContextMenu";
+import HeaderMenu from "./addons/HeaderMenu";
 
 const context = {
 
   _items: [],
 
-  showItem: (item) => {context._items = [item];},
+  showItem: (item) => {
+    context._items = [item];
+  },
   items: () => context._items,
-  clear: () => {context._items = [];}
+  clear: () => {
+    context._items = [];
+  }
 };
 
 export default class Table extends Component {
@@ -24,6 +29,7 @@ export default class Table extends Component {
     this.handleScroll = this.handleScroll.bind(this);
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSort = this.handleSort.bind(this);
 
     const config = R.pick(["width", "height", "rowHeight", "headerRowHeight", "columns"], props);
 
@@ -46,7 +52,9 @@ export default class Table extends Component {
     console.log("scroll to x/y", x, y);
     this.setState({
       bodyOffsetLeft: x,
-      bodyOffsetTop: y
+      bodyOffsetTop: y,
+      mouseClickRow: -1,
+      mouseClickColumn: -1
     });
     context.clear();
   }
@@ -59,11 +67,21 @@ export default class Table extends Component {
     })
   }
 
+  handleSort(column, action) {
+    context.clear();
+    console.log("sort " + column + " in ", action);
+    this.state.table.sort(column, action.sortOrder);
+    this.setState({
+      mouseClickRow: -1,
+      mouseClickColumn: -1
+    });
+  }
+
   handleClick(row, column) {
     console.log("mouse click row/column", row, column);
 
     if (this.state.mouseClickColumn === column
-      && this.state.mouseClickRow === row){
+      && this.state.mouseClickRow === row) {
       context.clear();
       this.setState({
         mouseClickRow: -1,
@@ -74,7 +92,9 @@ export default class Table extends Component {
       context.showItem({
         top: pos.top + pos.height,
         left: pos.left,
-        item: <div className="context-menu" style={{height: 80, width: 150}}>Click on {row} / {column}</div>
+        item: <div className="context-menu" style={{height: 80, width: 150}}>
+          <HeaderMenu onClick={this.handleSort.bind(this, column)}/>
+        </div>
       })
       this.setState({
         mouseClickRow: row,
@@ -111,7 +131,7 @@ export default class Table extends Component {
         }
       }
 
-      return <Cell key={c.x+"_"+c.y}
+      return <Cell key={c.x + "_" + c.y}
                    row={c.row}
                    column={c.column}
                    x={c.x}

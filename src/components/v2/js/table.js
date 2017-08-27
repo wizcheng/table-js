@@ -4,16 +4,36 @@ const create = () => {
 
   const table = {
 
+    sort: (columnIdx, order) => {
+      const column = R.find(R.propEq("__index", columnIdx))(table.config.columns);
+      table.dataSource().sort(column, order);
+    },
+
     dataSource: () => {
 
     },
 
     setDataArray: (array) => {
 
-      table.dataSource = () => ({
-        size: () => array.length,
-        at: (i) => array[i]
-      })
+      const dataSource = {
+        _array: array,
+        size: () => dataSource._array.length,
+        at: (i) => dataSource._array[i],
+        sort: (column, order) => {
+          const sortWith = [];
+          switch (order) {
+            case "descending":
+              sortWith.push(R.descend(R.prop(column.key)));
+              break;
+            case "ascending":
+            default:
+              sortWith.push(R.ascend(R.prop(column.key)))
+          }
+          dataSource._array = R.sortWith(sortWith, dataSource._array);
+        }
+      };
+
+      table.dataSource = () => dataSource;
 
     },
 
