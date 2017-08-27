@@ -15,9 +15,10 @@ export default class HeaderMenu extends Component {
     };
 
     return <div className="header-menu">
-      Sort<br/>
+      <div className="title">-- sort by --</div>
       <div className="item" onClick={_handleClick.bind(this, "ascending")}>ascending</div>
       <div className="item" onClick={_handleClick.bind(this, "descending")}>descending</div>
+      <div className="item" onClick={_handleClick.bind(this, "clear")}>clear</div>
     </div>
   }
 }

@@ -1,5 +1,20 @@
+.header-menu {
+  background-color: #20b2aa;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.header-menu > .title {
+  font-size: 14px;
+  color: #00827a;
+  padding: 5px;
+}
+
 .header-menu > .item {
   /*background-color: #1b719f;*/
+  color: white;
+  padding: 3px;
+  cursor: pointer;
 }
 .header-menu > .item:hover {
   background-color: #3b91bf;

@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import R from "ramda";
 import "./Cell.css";
 
 export default class Cell extends Component {

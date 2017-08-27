@@ -15,7 +15,7 @@ class ContextMenu extends Component {
 
   render() {
 
-    const {width, height, zIndex, open, items} = this.props;
+    const {zIndex, items} = this.props;
     const style = {
       width: 0,
       height: 0,

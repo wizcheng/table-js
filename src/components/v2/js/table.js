@@ -16,6 +16,7 @@ const create = () => {
     setDataArray: (array) => {
 
       const dataSource = {
+        _arrayRaw: array,
         _array: array,
         size: () => dataSource._array.length,
         at: (i) => dataSource._array[i],
@@ -26,10 +27,16 @@ const create = () => {
               sortWith.push(R.descend(R.prop(column.key)));
               break;
             case "ascending":
+              sortWith.push(R.ascend(R.prop(column.key)));
+              break;
             default:
-              sortWith.push(R.ascend(R.prop(column.key)))
           }
-          dataSource._array = R.sortWith(sortWith, dataSource._array);
+
+          if (sortWith.length>0){
+            dataSource._array = R.sortWith(sortWith, dataSource._array);
+          } else {
+            dataSource._array = dataSource._arrayRaw;
+          }
         }
       };
 
@@ -192,7 +199,6 @@ const create = () => {
 
       // calculate visible columns
       let prevEnd = 0;
-      console.log("viewport xFrom/xTo", viewport._xFrom(), viewport._xTo());
       for (let i = 0; i < columns.length; i++) {
 
         const currStart = prevEnd;

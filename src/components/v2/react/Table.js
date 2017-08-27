@@ -49,7 +49,6 @@ export default class Table extends Component {
   }
 
   handleScroll(x, y) {
-    console.log("scroll to x/y", x, y);
     this.setState({
       bodyOffsetLeft: x,
       bodyOffsetTop: y,
@@ -60,7 +59,6 @@ export default class Table extends Component {
   }
 
   handleMouseOver(row, column) {
-    console.log("mouse over row/column", row, column);
     this.setState({
       mouseOverRow: row,
       mouseOverColumn: column
@@ -68,8 +66,9 @@ export default class Table extends Component {
   }
 
   handleSort(column, action) {
-    context.clear();
     console.log("sort " + column + " in ", action);
+
+    context.clear();
     this.state.table.sort(column, action.sortOrder);
     this.setState({
       mouseClickRow: -1,
@@ -105,7 +104,6 @@ export default class Table extends Component {
 
   render() {
 
-    console.log("table render");
     const table = this.state.table;
 
     const bodyOffsetLeft = this.state.bodyOffsetLeft;
@@ -121,12 +119,12 @@ export default class Table extends Component {
 
       let className = c.row % 2 === 0 ? "even" : "odd";
       if (typeof this.state.mouseOverRow !== "undefined") {
-        if (c.row == this.state.mouseOverRow) {
+        if (c.row === this.state.mouseOverRow) {
           className += " mouseover-row"
         }
       }
       if (typeof this.state.mouseOverColumn !== "undefined") {
-        if (c.column == this.state.mouseOverColumn) {
+        if (c.column === this.state.mouseOverColumn) {
           className += " mouseover-column"
         }
       }

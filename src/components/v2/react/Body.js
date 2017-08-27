@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import R from "ramda";
 import "./Body.css";
 
 export default class Body extends Component {
