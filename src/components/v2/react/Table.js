@@ -29,7 +29,7 @@ export default class Table extends Component {
     this.handleScroll = this.handleScroll.bind(this);
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleSort = this.handleSort.bind(this);
+    this.handleMenuClick = this.handleMenuClick.bind(this);
 
     const config = R.pick(["width", "height", "rowHeight", "headerRowHeight", "columns"], props);
 
@@ -65,11 +65,18 @@ export default class Table extends Component {
     })
   }
 
-  handleSort(column, action) {
-    console.log("sort " + column + " in ", action);
+  handleMenuClick(column, action) {
+    console.log("click " + column + " with action ", action);
 
     context.clear();
-    this.state.table.sort(column, action.sortOrder);
+
+    if (action.sort){
+      this.state.table.sort(column, action.sort.order);
+    }
+    if (action.filter){
+      this.state.table.filter(column, action.filter.value);
+    }
+
     this.setState({
       mouseClickRow: -1,
       mouseClickColumn: -1
@@ -92,7 +99,7 @@ export default class Table extends Component {
         top: pos.top + pos.height,
         left: pos.left,
         item: <div className="context-menu" style={{height: 80, width: 150}}>
-          <HeaderMenu onClick={this.handleSort.bind(this, column)}/>
+          <HeaderMenu onClick={this.handleMenuClick.bind(this, column)}/>
         </div>
       })
       this.setState({

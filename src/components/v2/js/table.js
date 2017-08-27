@@ -9,6 +9,11 @@ const create = () => {
       table.dataSource().sort(column, order);
     },
 
+    filter: (columnIdx, filter) => {
+      const column = R.find(R.propEq("__index", columnIdx))(table.config.columns);
+      table.dataSource().filter(column, filter);
+    },
+
     dataSource: () => {
 
     },
@@ -37,6 +42,15 @@ const create = () => {
           } else {
             dataSource._array = dataSource._arrayRaw;
           }
+        },
+        filter: (column, filter) => {
+          const regex = new RegExp(".*" + filter + ".*", "i");
+          const filterFn = R.filter(o => {
+            return String(R.prop(column.key, o)).match(regex);
+          });
+          console.log("before filter", dataSource._arrayRaw);
+          dataSource._array = filterFn(dataSource._arrayRaw);
+          console.log("after filter", dataSource._array);
         }
       };
 
@@ -223,7 +237,9 @@ const create = () => {
       let rowTo = Math.ceil(viewport._yTo() / table.config.rowHeight);
       rowTo = Math.min(rowTo, table.dataSource().size()-1);
       R.range(rowFrom, rowTo + 1).forEach(r => {visibleRows.push(r)});
-      return visibleRows;
+
+      const rowCount = table.dataSource().size();
+      return R.filter(r => r < rowCount && r > -1, visibleRows);
     },
     _visibleCells: (visibleColumns, visibleRows, columns) => {
       const columnX = (col) => {
