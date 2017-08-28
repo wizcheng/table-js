@@ -61,8 +61,8 @@ export default class HeaderMenu extends Component {
       <div className="item" onClick={_handleClick.bind(this, "clear")}>clear</div>
       <div className="title">-- filter by --</div>
       <div className="item-noclick">
-        <input type="text" onChange={this._handleFilterChange} value={this.state.filter} onKeyUp={this._handleKeyUp}></input>
-        (press enter)
+          <input style={{width: "100%", boxSizing: "border-box"}} type="text" onChange={this._handleFilterChange} value={this.state.filter} onKeyUp={this._handleKeyUp}></input>
+          (press enter)
       </div>
       <div className="item" onClick={_handleFilterClear}>clear</div>
     </div>
