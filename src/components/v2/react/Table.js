@@ -8,6 +8,8 @@ import Header from "./Header";
 import ContextMenu from "./ContextMenu";
 import HeaderMenu from "./addons/HeaderMenu";
 
+const MAX_SCROLL_BAR_SIZE = 20;
+
 const context = {
 
   _items: [],
@@ -161,7 +163,7 @@ export default class Table extends Component {
           top={table.utils.headerTop()}
           visibleWidth={table.utils.headerVisibleWidth()}
           visibleHeight={table.utils.headerVisibleHeight()}
-          width={table.utils.headerWidth()}
+          width={table.utils.headerWidth() + MAX_SCROLL_BAR_SIZE}
           height={table.utils.headerHeight()}
           offsetLeft={bodyOffsetLeft}
           offsetTop={0}
@@ -203,7 +205,7 @@ export default class Table extends Component {
           visibleWidth={table.utils.bodyLeft()}
           visibleHeight={table.utils.bodyVisibleHeight()}
           width={table.utils.bodyLeft()}
-          height={table.utils.bodyHeight()}
+          height={table.utils.bodyHeight() + MAX_SCROLL_BAR_SIZE}
           cells={cellToComponents(table.visibleFixedCells())}
           // onScroll={this.handleScroll}
           noScroll
