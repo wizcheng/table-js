@@ -138,7 +138,7 @@ export default class Table extends Component {
         }
       }
 
-      return <Cell key={c.x + "_" + c.y}
+      return <Cell key={c.x + "_" + c.y + "_" + c.width + "_" + c.height}
                    row={c.row}
                    column={c.column}
                    x={c.x}

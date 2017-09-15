@@ -63,7 +63,8 @@ const create = () => {
       height: 500,
       rowHeight: 30,
       headerRowHeight: 50,
-      columns: []
+      columns: [],
+      headerGroup: {}
     },
 
     setConfig: (config) => {
@@ -73,20 +74,49 @@ const create = () => {
       table.config = Object.assign({}, table.config, config, {columns});
     },
 
+
+    headerGroup: {
+
+      _numberOfRows: () => {
+        return 2;
+      },
+      _normalGroups: () => {
+        // should be calculated based on config.headerGroup & config.columns
+        return [
+          {row:0, left: 0, width: 500, name: "group a"},
+          {row:1, left: 0, width: 100, name: "group 1"},
+          {row:1, left: 100, width: 100, name: "group 2"},
+        ];
+      },
+      _fixedGroups: () => {
+        // should be calculated based on config.headerGroup & config.columns
+        return [
+          {row:0, left: 0, width: 100, name: "group a"},
+        ];
+      }
+    },
+
     utils: {
+
+
       bodyTop: () => table.utils.headerHeight(),
       bodyLeft: () => {return table.utils._sumOfWidth(table.utils._fixedColumns())},
       bodyVisibleWidth: () => { return table.config.width - table.utils.bodyLeft() },
-      bodyVisibleHeight: () => { return table.config.height - table.config.headerRowHeight; },
+      bodyVisibleHeight: () => { return table.config.height - table.utils.headerVisibleHeight(); },
       bodyWidth: () => R.sum(R.map(c => c.width, table.utils._normalColumns())),
       bodyHeight: () => table.config.rowHeight * table.dataSource().size(),
 
       headerTop: () => 0,
       headerLeft: () => {return table.utils._sumOfWidth(table.utils._fixedColumns())},
       headerVisibleWidth: () => { return table.config.width - table.utils.headerLeft() },
-      headerVisibleHeight: () => { return table.config.headerRowHeight; },
+      headerVisibleHeight: () => table.utils.headerHeight(),
       headerWidth: () => R.sum(R.map(c => c.width, table.utils._normalColumns())),
-      headerHeight: () => { return table.config.headerRowHeight },
+      headerHeight: () => {
+        return table.config.headerRowHeight * (table.headerGroup._numberOfRows() + 1);
+      },
+
+      _headerGroupTop: () => 0,
+      _headerGroupHeight: () => table.headerGroup._numberOfRows() * table.config.headerRowHeight,
 
       _normalColumns: () => { return R.filter(c => !c.fixed, table.config.columns)},
       _fixedColumns: () => { return R.filter(c => c.fixed, table.config.columns)},
@@ -168,7 +198,7 @@ const create = () => {
           row: undefined,
           column: c.__index,
           x: startX,
-          y: 0,
+          y: table.utils._headerGroupHeight(),
           width: c.width,
           height: table.config.headerRowHeight,
           value: c.name
@@ -176,6 +206,20 @@ const create = () => {
 
         startX += c.width;
       });
+
+      table.headerGroup._fixedGroups().forEach(g => {
+        headers.push({
+          row: undefined,
+          column: undefined,
+          x: g.left,
+          y: table.config.headerRowHeight * g.row,
+          width: g.width,
+          height: table.config.headerRowHeight,
+          value: g.name
+        });
+      });
+
+
       return headers;
 
     },
@@ -189,7 +233,7 @@ const create = () => {
           row: undefined,
           column: c.__index,
           x: startX,
-          y: 0,
+          y: table.utils._headerGroupHeight(),
           width: c.width,
           height: table.config.headerRowHeight,
           value: c.name
@@ -197,10 +241,23 @@ const create = () => {
 
         startX += c.width;
       });
+
+      table.headerGroup._normalGroups().forEach(g => {
+        headers.push({
+          row: undefined,
+          column: undefined,
+          x: g.left,
+          y: table.config.headerRowHeight * g.row,
+          width: g.width,
+          height: table.config.headerRowHeight,
+          value: g.name
+        });
+      });
+
+
       return headers;
 
     },
-
 
 
     _isVisible: (from, to, visibleFrom, visibleTo) => {
