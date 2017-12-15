@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://wizcheng.github.io/table-js",
   "dependencies": {
+    "lodash": "^4.17.4",
     "ramda": "^0.24.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"

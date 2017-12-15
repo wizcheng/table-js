@@ -6,4 +6,15 @@ demo
 
 
 
+
+
+
+###grouping
+ 
+- under section of headerGroup
+- provide offset rows renderer
+
+
+
+
 [contribute some!]
