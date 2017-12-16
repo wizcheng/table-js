@@ -21,6 +21,7 @@ describe("js table", () => {
     return R.flatten(R.range(rowFrom, rowTo+1).map(row => {
       return R.range(colFrom, colTo+1).map(col => {
         return {
+          type: 'cell',
           row: row,
           column: col,
           x: (col + colOffset) * 100,
