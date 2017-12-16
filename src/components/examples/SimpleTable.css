@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-width: 0px 0px 1px 0px;
+  border-width: 0 0 1px 0;
   border-style: solid;
   border-color: #cccccc;
 }
@@ -28,14 +28,11 @@
 
 .simple-table .header .cell {
   background-color: #2b81af;
+  font-size: 13px;
   color: white;
 }
 
-.simple-table .header .cell {
-  font-size: 13px;
-}
-
-.simple-table .mouseover-row.cell {
+.simple-table .mouseover-row.cell.type-cell {
   background-color: #b0e0e6;
 }
 

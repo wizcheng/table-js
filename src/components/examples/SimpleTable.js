@@ -65,7 +65,6 @@ class SimpleTable extends Component {
       }
     }
 
-
     return (
       <div style={{display: "inline-block"}}>
         <Table

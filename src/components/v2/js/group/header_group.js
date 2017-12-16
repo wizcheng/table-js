@@ -142,8 +142,9 @@ export const computeGroups = (columns, groups) => {
       const left = calculateLeft(group);
       const width = calculateWidth(group);
       const name = group.name;
+      const className = group.className;
       const obj = {
-        row, left, width, name
+        row, left, width, name, className
       };
 
       if (isFixed(group)){

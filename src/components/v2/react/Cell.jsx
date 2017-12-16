@@ -5,7 +5,7 @@ export default class Cell extends Component {
 
   render() {
 
-    const {row, column, x, y, width, height, children, className, onMouseOver, onClick} = this.props;
+    const {type, row, column, x, y, width, height, children, className, onMouseOver, onClick} = this.props;
     const style = {
       top: y,
       left: x,
@@ -16,13 +16,13 @@ export default class Cell extends Component {
 
     const _handleMouseOver = () => {
       if (onMouseOver){
-        onMouseOver(row, column);
+        onMouseOver(type, row, column);
       }
     };
 
     const _handleClick = () => {
       if (onClick){
-        onClick(row, column);
+        onClick(type, row, column);
       }
     };
 

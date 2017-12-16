@@ -36,7 +36,7 @@ export default class Header extends Component {
       position: "relative"
     };
 
-    const constainerStyle = {
+    const containerStyle = {
       top: top,
       left: left,
       width: visibleWidth,
@@ -46,7 +46,7 @@ export default class Header extends Component {
     };
 
     return (
-      <div id="header" ref={(header) => {this.header = header}} className="header" style={constainerStyle}>
+      <div id="header" ref={(header) => {this.header = header}} className="header" style={containerStyle}>
         <div style={style}>
           {cells}
         </div>

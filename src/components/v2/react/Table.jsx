@@ -60,8 +60,9 @@ export default class Table extends Component {
     context.clear();
   }
 
-  handleMouseOver(row, column) {
+  handleMouseOver(type, row, column) {
     this.setState({
+      mouseOverType: type,
       mouseOverRow: row,
       mouseOverColumn: column
     })
@@ -85,8 +86,16 @@ export default class Table extends Component {
     });
   }
 
-  handleClick(row, column) {
-    console.log("mouse click row/column", row, column);
+  handleClick(type, row, column) {
+
+    if (type !== 'header') {
+      return null;
+    }
+    if (R.isNil(row) || R.isNil(column)){
+      return null;
+    }
+
+    console.log("mouse click type/row/column", type, row, column);
 
     if (this.state.mouseClickColumn === column
       && this.state.mouseClickRow === row) {
@@ -96,7 +105,7 @@ export default class Table extends Component {
         mouseClickColumn: -1
       });
     } else {
-      const pos = this.state.table.utils.rowAndColumnToPosition(row, column);
+      const pos = this.state.table.utils.rowAndColumnToPosition(type, row, column);
       context.showItem({
         top: pos.top + pos.height,
         left: pos.left,
@@ -127,8 +136,8 @@ export default class Table extends Component {
     const cellToComponents = R.map(c => {
 
       let className = c.row % 2 === 0 ? "even" : "odd";
-      if (typeof this.state.mouseOverRow !== "undefined") {
-        if (c.row === this.state.mouseOverRow) {
+      if (!R.isNil(this.state.mouseOverRow)) {
+        if (c.row === this.state.mouseOverRow && c.type === this.state.mouseOverType) {
           className += " mouseover-row"
         }
       }
@@ -138,7 +147,10 @@ export default class Table extends Component {
         }
       }
 
+      className += ` row-${c.row} type-${c.type}`;
+
       return <Cell key={c.x + "_" + c.y + "_" + c.width + "_" + c.height}
+                   type={c.type}
                    row={c.row}
                    column={c.column}
                    x={c.x}
@@ -183,7 +195,6 @@ export default class Table extends Component {
           onScroll={this.handleScroll}
         />
 
-
         <Header
           zIndex={1}
           scrollLeftTo={0}
@@ -198,6 +209,7 @@ export default class Table extends Component {
           cells={cellToComponents(table.visibleFixedHeaders())}
           context={context}
         />
+
         <Body
           zIndex={1}
           scrollTopTo={bodyOffsetTop}

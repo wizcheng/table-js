@@ -98,7 +98,6 @@ const create = () => {
 
     utils: {
 
-
       bodyTop: () => table.utils.headerHeight(),
       bodyLeft: () => {
         return table.utils._sumOfWidth(table.utils._fixedColumns())
@@ -146,18 +145,18 @@ const create = () => {
         return left;
       },
 
-      rowAndColumnToPosition: (row, column) => {
+      rowAndColumnToPosition: (type, row, column) => {
 
         let top = 0;
         let left = 0;
         let height = 0;
         let width = 0;
 
-        if (typeof row !== "undefined") {
-          top = row * table.config.rowHeight + table.config.headerRowHeight - table.viewport.offsetTop();
-          height = table.config.rowHeight;
+        if (type === "header") {
+          height = table.utils.headerHeight();
         } else {
-          height = table.config.headerRowHeight;
+          top = row * table.config.rowHeight + table.utils.headerHeight() - table.viewport.offsetTop();
+          height = table.config.rowHeight;
         }
 
         if (column <= table.utils._fixedColumns().length) {
@@ -208,7 +207,8 @@ const create = () => {
       let startX = 0;
       table.utils._fixedColumns().forEach(c => {
         headers.push({
-          row: undefined,
+          type: 'header',
+          row: table.headerGroup._numberOfRows(),
           column: c.__index,
           x: startX,
           y: table.utils._headerGroupHeight(),
@@ -222,7 +222,8 @@ const create = () => {
 
       table.headerGroup._fixedGroups().forEach(g => {
         headers.push({
-          row: undefined,
+          type: 'header',
+          row: g.row,
           column: undefined,
           x: g.left,
           y: table.config.headerRowHeight * g.row,
@@ -232,7 +233,6 @@ const create = () => {
         });
       });
 
-
       return headers;
 
     },
@@ -241,7 +241,7 @@ const create = () => {
 
       let xFrom = table.viewport._xFrom();
       let xTo = table.viewport._xTo();
-      const visiable = (x, width) => {
+      const visible = (x, width) => {
         let start = x;
         let end = x + width;
         return !(end < xFrom || start > xTo)
@@ -250,9 +250,10 @@ const create = () => {
       const headers = [];
       let startX = 0;
       table.utils._normalColumns().forEach(c => {
-        if (visiable(startX, c.width)) {
+        if (visible(startX, c.width)) {
           headers.push({
-            row: undefined,
+            type: 'header',
+            row: table.headerGroup._numberOfRows(),
             column: c.__index,
             x: startX,
             y: table.utils._headerGroupHeight(),
@@ -265,9 +266,10 @@ const create = () => {
       });
 
       table.headerGroup._normalGroups().forEach(g => {
-        if (visiable(g.left, g.width)) {
+        if (visible(g.left, g.width)) {
           headers.push({
-            row: undefined,
+            type: 'header',
+            row: g.row,
             column: undefined,
             x: g.left,
             y: table.config.headerRowHeight * g.row,
@@ -338,6 +340,7 @@ const create = () => {
           const data = dataSource.at(row);
           const value = data[columnConfig.key];
           visibleCells.push({
+            type: 'cell',
             row: row,
             column: columnConfig.__index,
             y: rowHeight * row,
