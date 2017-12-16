@@ -32,6 +32,7 @@ export default class Table extends Component {
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.dismissContextMenu = this.dismissContextMenu.bind(this);
 
     const config = R.pick(["width", "height", "rowHeight", "headerRowHeight", "columns", 'groups'], props);
 
@@ -80,6 +81,14 @@ export default class Table extends Component {
       this.state.table.filter(column, action.filter.value);
     }
 
+    this.setState({
+      mouseClickRow: -1,
+      mouseClickColumn: -1
+    });
+  }
+
+  dismissContextMenu() {
+    context.clear();
     this.setState({
       mouseClickRow: -1,
       mouseClickColumn: -1
@@ -229,6 +238,7 @@ export default class Table extends Component {
           width={width}
           height={height}
           items={context.items()}
+          onEscape={this.dismissContextMenu}
         />
       </div>
     );

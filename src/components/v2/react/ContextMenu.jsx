@@ -13,6 +13,28 @@ const itemsToDOM = R.addIndex(R.map)((item, i) => {
 
 class ContextMenu extends Component {
 
+  constructor(props){
+    super(props);
+    this.handleEscape = this.handleEscape.bind(this);
+  }
+
+  handleEscape(e) {
+    if (e.keyCode === 27) {
+      console.log("Escape pressed");
+      if (this.props.onEscape){
+        this.props.onEscape();
+      }
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener("keyup", this.handleEscape);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keyup", this.handleEscape);
+  }
+
   render() {
 
     const {zIndex, items} = this.props;
