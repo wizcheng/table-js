@@ -2,7 +2,7 @@ import R from "ramda";
 
 const loadData = (n, x = 5) => {
 
-  const fields = R.map(f=>"field_" + f,R.range(1, x+1));
+  const fields = R.map(f=>"column_" + f,R.range(0, x));
   const createItem = (i) => {
     var values = R.map(f => "r" + i + "_" + f, fields);
     return R.zipObj(fields, values)

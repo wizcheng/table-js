@@ -1,4 +1,5 @@
 import R from "ramda";
+import {computeGroups} from "./group/header_group";
 
 const create = () => {
 
@@ -73,7 +74,11 @@ const create = () => {
       const columns = R.addIndex(R.map)((c, i) => {
         return Object.assign({}, c, {__index: i})
       }, config.columns);
-      table.config = Object.assign({}, table.config, config, {columns});
+
+      const groupsRaw = config.groups;
+      const groups = computeGroups(columns, groupsRaw);
+
+      table.config = Object.assign({}, table.config, config, {columns, groups, groupsRaw});
 
     },
 
@@ -81,21 +86,13 @@ const create = () => {
     headerGroup: {
 
       _numberOfRows: () => {
-        return 2;
+        return table.config.groups.numberOfRows;
       },
       _normalGroups: () => {
-        // should be calculated based on config.headerGroup & config.columns
-        return [
-          {row: 0, left: 0, width: 500, name: "group a"},
-          {row: 1, left: 0, width: 100, name: "group 1"},
-          {row: 1, left: 100, width: 100, name: "group 2"}
-        ];
+        return table.config.groups.normalGroups;
       },
       _fixedGroups: () => {
-        // should be calculated based on config.headerGroup & config.columns
-        return [
-          {row: 0, left: 0, width: 100, name: "group a"}
-        ];
+        return table.config.groups.fixedGroups;
       }
     },
 

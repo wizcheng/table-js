@@ -48,7 +48,6 @@ describe("js table", () => {
     const table = tableCreator.create();
     table.setDataArray(createFakeData(3, 2));
 
-    console.log("fake data", createFakeData(3, 2));
     table.setConfig({
       headerRowHeight: 30,
       rowHeight: 10,
@@ -57,9 +56,6 @@ describe("js table", () => {
 
     const expected = sortByXY(createExpectedData(0, 2, 0, 1));
     const actual = sortByXY(table.visibleCells());
-
-    //console.log("actual", actual);
-    //console.log("expected", expected);
 
     chai.expect(actual).to.have.lengthOf(expected.length);
     chai.expect(actual).to.be.deep.equal(expected);
@@ -72,7 +68,6 @@ describe("js table", () => {
     const table = tableCreator.create();
     table.setDataArray(createFakeData(3, 4));
 
-    console.log("fake data", createFakeData(3, 4));
     var columns = createColumnDefns(4);
     columns[0].fixed = true;
     columns[1].fixed = true;
@@ -84,9 +79,6 @@ describe("js table", () => {
 
     const expected = sortByXY(createExpectedData(0, 2, 2, 3, 0, -2));
     const actual = sortByXY(table.visibleCells());
-
-    //console.log("actual 2", actual);
-    //console.log("expected 2", expected);
 
     chai.expect(actual).to.have.lengthOf(expected.length);
     chai.expect(actual).to.be.deep.equal(expected);
@@ -109,9 +101,6 @@ describe("js table", () => {
 
     const expected = sortByXY(createExpectedData(0, 5, 0, 6));
     const actual = sortByXY(table.visibleCells());
-
-    //console.log("actual", actual);
-    //console.log("expected", expected);
 
     chai.expect(actual).to.have.lengthOf(expected.length);
     chai.expect(actual).to.be.deep.equal(expected);
@@ -138,9 +127,6 @@ describe("js table", () => {
 
     const expected = sortByXY(createExpectedData(3, 8, 2, 9));
     const actual = sortByXY(table.visibleCells());
-
-    //console.log("actual 1", actual);
-    //console.log("expected 1", expected);
 
     chai.expect(actual).to.have.lengthOf(expected.length);
     chai.expect(actual).to.be.deep.equal(expected);

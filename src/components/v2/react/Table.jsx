@@ -33,7 +33,7 @@ export default class Table extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
 
-    const config = R.pick(["width", "height", "rowHeight", "headerRowHeight", "columns"], props);
+    const config = R.pick(["width", "height", "rowHeight", "headerRowHeight", "columns", 'groups'], props);
 
     const table = tableCreator.create();
     table.setConfig(config);
@@ -103,7 +103,7 @@ export default class Table extends Component {
         item: <div className="context-menu" style={{height: 80, width: 150}}>
           <HeaderMenu onClick={this.handleMenuClick.bind(this, column)}/>
         </div>
-      })
+      });
       this.setState({
         mouseClickRow: row,
         mouseClickColumn: column
@@ -169,6 +169,7 @@ export default class Table extends Component {
           offsetTop={0}
           cells={cellToComponents(table.visibleHeaders())}
         />
+
         <Body
           zIndex={0}
           scrollTopTo={bodyOffsetTop}

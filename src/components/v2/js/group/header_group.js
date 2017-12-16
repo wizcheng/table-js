@@ -8,6 +8,10 @@ const enrichGroups = (groups, key2columns) => {
   const enrichGroup = (group) => {
     if (group.type === 'column') {
       const column = key2columns[group.key];
+      if (R.isNil(column)){
+        throw Error(`column definition with key ${group.key} not found, referenced by group ${JSON.stringify(group)}`)
+      }
+
       group.column = column;
     } else {
       if (group.children) {
@@ -60,7 +64,61 @@ const isFixed = (group) => {
 
 };
 
-export const compute = (columns, groups) => {
+const attachLeft = (columns) => {
+
+  let left = 0;
+
+  const fixedColumns = columns.filter(c => c.fixed);
+  const normalColumns = columns.filter(c => !c.fixed);
+
+  left = 0;
+  fixedColumns.forEach(column => {
+    column.left = left;
+    left += column.width;
+  });
+
+  left = 0;
+  normalColumns.forEach(column => {
+    column.left = left;
+    left += column.width;
+  });
+
+  return columns;
+
+};
+
+const calculateLeft = (group) => {
+
+  if (group.type === 'column'){
+    return group.column.left;
+  } else {
+    if (group.children) {
+      if (group.children) {
+        return R.reduce((v, obj) => {
+
+          const currLeft = calculateLeft(obj);
+          if (v === null) return currLeft;
+          if (currLeft === null) return v;
+          return Math.min(currLeft, v)
+        }, null, group.children);
+      }
+    }
+    return null;
+  }
+
+};
+
+export const computeGroups = (columns, groups) => {
+
+  if (R.isNil(groups) || R.isEmpty(groups)){
+    return {
+      numberOfRows: 0,
+      fixedGroups: [],
+      normalGroups: []
+    };
+  }
+
+  columns = attachLeft(columns);
 
   const key2columns = R.reduce((acc, value) => {
     acc[value.key] = value;
@@ -73,26 +131,35 @@ export const compute = (columns, groups) => {
 
   enrichGroups(groups, key2columns);
 
-  let left = 0;
-  groups.forEach(group => {
+  const convertToGroups = (group, row) => {
 
-    const width = calculateWidth(group);
-    const row = 0;
-    const name = group.name;
-    const obj = {
-      row, left, width, name
-    };
+    if (group.type === 'column') {
 
-    if (isFixed(group)){
-      fixedGroups.push(obj);
+      return null;
+
     } else {
-      normalGroups.push(obj);
+
+      const left = calculateLeft(group);
+      const width = calculateWidth(group);
+      const name = group.name;
+      const obj = {
+        row, left, width, name
+      };
+
+      if (isFixed(group)){
+        fixedGroups.push(obj);
+      } else {
+        normalGroups.push(obj);
+      }
+
+      if (group.children){
+        group.children.forEach(group => convertToGroups(group, row + 1));
+      }
     }
 
-    left += width;
+  };
 
-  });
-
+  groups.forEach(group => convertToGroups(group, 0));
 
   return {
     numberOfRows,
